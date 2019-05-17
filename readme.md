@@ -3,3 +3,5 @@
 ## Instalação
 
 npm install
+
+node app.js
