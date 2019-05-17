@@ -15,13 +15,19 @@ router.get('/categories', (req, res) => {
     .find()
     .sort({name: 'asc'})
     .then( categories => {
-      categories.map( (category, index) => {
-        console.log(categories.Schema.paths)
-        // for (let key in category) {
-        //   // console.log(key);
-        //   console.log(category[key]);
-        // }
-      })
+      // categories.map( (category, index) => {
+      //   console.log(categories.Schema.paths)
+      //   // for (let key in category) {
+      //   //   // console.log(key);
+      //   //   console.log(category[key]);
+      //   // }
+      // })
+      // console.log(categories)
+
+      for(let key in categories){
+        console.log(categories[key])
+      }
+
       res.render('admin/categories', {categories: categories})
     })
     .catch(error => {
