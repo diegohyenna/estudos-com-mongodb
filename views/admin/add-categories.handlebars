@@ -1,0 +1,12 @@
+<h3>Nova Categoria</h3>
+{{#each errors}}
+  <div class="alert alert-danger">{{text}}</div>
+{{else}}
+{{/each}}
+<form action="./new" method="POST">
+  <label for="nome">Nome: </label>
+    <input type="text" id="name" name="name" value="{{category.name}}" placeholder="Nome da categorias">
+  <label for="slug">Slug: </label>
+    <input type="text" id="slug" name="slug" value="{{category.slug}}" placeholder="Slug da categorias">
+  <button type="submit" class="btn btn-success">Criar categoria</button>
+</form>
