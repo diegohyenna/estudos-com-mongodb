@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="#">NodeJS + Mongoose</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -7,14 +7,28 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      {{#if userLogged.type}}
+      <li class="nav-item">
+        <a class="nav-link" href="/user">Usuarios</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="/admin/categories">Categorias<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/admin/posts">Postagens</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
+      {{else}}
+      {{/if}}
     </ul>
+    {{#if userLogged}}
+    <form class="form-inline my-2 my-lg-0" action="/user/my-account" method="post">
+      <input type="hidden" name="id" value="{{userLogged.id}}"/>
+      <input type="submit" class="form-control mr-sm-2" value="Minha conta"/>
+      <a class="btn btn-warning" href="/login/logout">Sair</a>
+    </form>
+    {{else}}
+    {{/if}}
   </div>
 </nav>

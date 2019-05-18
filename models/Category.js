@@ -13,7 +13,7 @@ const Category = new Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now()
+      default: Date.now
     },
     updatedAt: {
       type: Date

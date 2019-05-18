@@ -3,6 +3,7 @@
   <div class="alert alert-danger">{{text}}</div>
 {{else}}
 {{/each}}
+<hr>
 <form action="/admin/posts/edit" method="POST">
   <input type="hidden" name="id" value="{{post.id}}">
   <div class="form-group">
@@ -32,4 +33,5 @@
     </select>
   </div>
   <button type="submit" class="btn btn-success">Criar postagem</button>
+  <a href="../" class="btn btn-secondary">Voltar</a>
 </form>

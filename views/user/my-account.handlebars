@@ -1,0 +1,18 @@
+<h2>Minha conta</h2>
+<hr>
+  <form action="/user/edit/" method="post">
+    <input type="hidden" name="id" value="{{userLogged.id}}"/>
+    <input type="submit" class="btn btn-primary" value="Editar conta"/>
+    <a href="/" class="btn btn-secondary">Voltar</a>
+  </form>
+<hr>
+<div class="card mt-2">
+  <div class="card-body">
+    <h4>{{user.name}}</h4>
+    <p>Email: {{user.email}}</p>
+    <p>Tipo de Usuário: {{user.eAdmin}}</p>
+    <p>Criação: {{user.createdAt}}</p>
+    <p>Modificação: {{user.updatedAt}}</p>
+  </div>
+</div>
+

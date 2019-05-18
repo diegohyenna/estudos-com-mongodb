@@ -1,0 +1,20 @@
+/* Color Theme Swatches in Hex */
+.Dusty-Summer-1-hex { color: #BD716D; }
+.Dusty-Summer-2-hex { color: #FF5F5B; }
+.Dusty-Summer-3-hex { color: #FFD74F; }
+.Dusty-Summer-4-hex { color: #FFDE6B; }
+.Dusty-Summer-5-hex { color: #FFE684; }
+
+/* Color Theme Swatches in RGBA */
+.Dusty-Summer-1-rgba { color: rgba(188, 113, 109, 1); }
+.Dusty-Summer-2-rgba { color: rgba(255, 94, 91, 1); }
+.Dusty-Summer-3-rgba { color: rgba(255, 214, 78, 1); }
+.Dusty-Summer-4-rgba { color: rgba(255, 221, 107, 1); }
+.Dusty-Summer-5-rgba { color: rgba(255, 229, 132, 1); }
+
+/* Color Theme Swatches in HSLA */
+.Dusty-Summer-1-hsla { color: hsla(2, 37, 58, 1); }
+.Dusty-Summer-2-hsla { color: hsla(1, 100, 67, 1); }
+.Dusty-Summer-3-hsla { color: hsla(46, 100, 65, 1); }
+.Dusty-Summer-4-hsla { color: hsla(46, 100, 70, 1); }
+.Dusty-Summer-5-hsla { color: hsla(47, 100, 75, 1); }

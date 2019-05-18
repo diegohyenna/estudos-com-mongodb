@@ -1,7 +1,20 @@
-# Estudos com MongoDB + Mongoose + Express + Handlebars
+# Estudos com MongoDB + Mongoose
 
 ## Instalação
 
-npm install
+- npm install
+- node app.js
 
-node app.js
+## Tecnologias usadas
+
+- BcryptJS
+- Boostrap
+- Body Parser
+- ExpressJs
+- Express Handlebars
+- Express Session
+- Connect Flash
+- Jquery
+- MongoDB
+- Mongoose
+- PassportJs

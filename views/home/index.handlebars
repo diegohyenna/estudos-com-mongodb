@@ -1,0 +1,19 @@
+{{#if userLogged}}
+{{else}}
+<a href="/user/register" class="btn btn-primary">Crie sua conta</a>
+<a href="/login" class="btn btn-success">Logar-se</a>
+<hr>
+{{/if}}
+<h3>Postagens recentes:</h3>
+<hr>
+{{#each posts}}
+  <div class="card mt-2">
+    <div class="card-body">
+      <h4>{{title}}</h4>      
+      <p>Descrição: {{description}}</p>
+      <p>Criação: {{createdAt}}</p>
+      <a href="/post/{{slug}}" class="btn btn-warning">Leia mais</a>
+    </div>
+  </div>
+{{else}}
+{{/each}}

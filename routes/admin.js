@@ -11,24 +11,32 @@ router.get('/', (req, res) => {
 })
 
 router.get('/categories', (req, res) => {
-  Category
-    .find()
-    .sort({name: 'asc'})
-    .then( categories => {
-      categories.map( (category, index) => {
-        // console.log(categories.Schema.paths)
-        for (let key in category) {
-          console.log(key);
-          // console.log(category[key]);
-        }
-      })
+  try{
+    Category
+      .find()
+      .sort({name: 'asc'})
+      .then( async categories => {
+   
+        let attributes = []; 
 
-      res.render('admin/categories', {categories: categories})
-    })
-    .catch(error => {
-      req.flash('error_msg', "Houve um erro ao listar as categorias")
-      res.redirect('/admin')
-    })
+        await categories.map( category => {
+          category.schema.eachPath( path => {
+            if(path.indexOf('_') != 0){
+              attributes.push(path);
+            }
+          });
+        })
+
+        await res.render('admin/categories', {categories: categories, attributes: attributes})
+      })
+      .catch(error => {        
+        req.flash('error_msg', "Houve um erro ao listar as categorias")
+        res.redirect('/admin')
+      })
+  }catch(e){
+    req.flash('error_msg', "Houve um erro ao listar as categorias")
+    res.redirect('/admin')
+  }
 })
 
 router.get('/categories/add', (req, res) => {

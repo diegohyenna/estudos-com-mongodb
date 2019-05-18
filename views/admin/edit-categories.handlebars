@@ -3,11 +3,17 @@
   <div class="alert alert-danger">{{text}}</div>
 {{else}}
 {{/each}}
-<form action="/admin/categories/edit" method="POST">
+<hr>
+<form action="/admin/categories/edit" method="post">  
   <input type="hidden" name="id" value="{{category._id}}">
-  <label for="nome">Nome: </label>
-    <input type="text" id="name" name="name" value="{{category.name}}" placeholder="Nome da categorias">
-  <label for="slug">Slug: </label>
-    <input type="text" id="slug" name="slug" value="{{category.slug}}" placeholder="Slug da categorias">
-  <button type="submit" class="btn btn-success">Editar categoria</button>
+  <div class="form-group">
+    <label for="nome">Nome: </label>
+    <input type="text" class="form-control" name="name" value="{{category.name}}" placeholder="Nome da categoria">
+  </div>
+  <div class="form-group">
+    <label for="slug">Slug: </label>
+    <input type="text" class="form-control" name="slug" value="{{category.slug}}" placeholder="Slug da categoria">
+  </div>
+  <button type="submit" class="btn btn-success">Salvar</button>
+  <a href="../" class="btn btn-secondary">Voltar</a>
 </form>

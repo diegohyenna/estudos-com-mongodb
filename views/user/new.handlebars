@@ -1,0 +1,21 @@
+<h3>Criar novo usuário</h3>
+{{#each errors}}
+  <div class="alert alert-danger">{{text}}</div>
+{{else}}
+{{/each}}
+<form action="/user/new" method="post">
+  <div class="form-group">
+    <label for="name">Nome: </label>
+    <input type="text" class="form-control" name="name" value="{{user.name}}" placeholder="Nome do usuário">
+  </div>
+  <div class="form-group">
+    <label for="email">Email: </label>
+    <input type="text" class="form-control" name="email" value="{{user.email}}" placeholder="Email do usuário">
+  </div>
+  <div class="form-group"> 
+    <label for="type">Tipo de usuário: </label>
+    <input type="text" class="form-control" name="type" value="{{user.type}}" placeholder="O tipo de usuário">
+  </div>
+  <button type="submit" class="btn btn-success">Criar</button>
+  <a href="/user" class="btn btn-secondary">Voltar</a>
+</form>

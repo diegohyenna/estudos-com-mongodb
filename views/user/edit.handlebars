@@ -1,0 +1,25 @@
+<h3>Editar minha conta</h3>
+{{#each errors}}
+  <div class="alert alert-danger">{{text}}</div>
+{{else}}
+{{/each}}
+<form action="/user/save" method="POST">
+  <input type="hidden" name="id" value="{{user._id}}">
+  <div class="form-group">
+    <label for="name">Nome: </label>
+    <input type="text" class="form-control" name="name" value="{{user.name}}" placeholder="Seu nome">
+  </div>
+  <div class="form-group">
+    <label for="email">Email: </label>
+    <input type="text" class="form-control" name="email" value="{{user.email}}" placeholder="Seu email">
+  </div>
+  <div class="form-group"> 
+    <label for="type">Tipo de usuário: </label>
+    <input type="text" class="form-control" name="type" value="{{user.type}}" placeholder="O tipo de usuário que você é">
+  </div>
+  <button type="submit" class="btn btn-success">Salvar</button>
+</form>
+<form action="/user/my-account" class="mt-2" method="post">
+  <input type="hidden" name="id" value="{{user._id}}">
+  <button type="submit" class="btn btn-secondary">Sair</button>
+</form>
