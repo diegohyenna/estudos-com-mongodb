@@ -25,7 +25,11 @@
     <label>Categorias</label>
     <select class="form-control" name="category">
       {{#each categories}}
-        <option value="{{_id}}">{{name}}</option>
+        {{#if selected}}
+          <option value="{{_id}}" selected="selected">{{name}}</option>
+        {{else}}
+          <option value="{{_id}}">{{name}}</option>
+        {{/if}}
       {{else}}
         <option value="">Nenhuma categoria selecionada!</option>
       {{/each}}

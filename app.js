@@ -20,6 +20,8 @@ const login = require('./routes/login')
 const { eAdmin } = require('./helpers/eAdmin')
 
 //configurações
+const DB_URI = "mongodb+srv://admin:admin123456@nodejs-mongoose-estudos-y8edt.mongodb.net/test?retryWrites=true";
+//"mongodb://localhost/nodejs-with-mongo-estudos"
 
 //session + middleware
 app.use(session(
@@ -55,8 +57,7 @@ app.set('view engine', 'handlebars');
 //banco de dados mongodb
 mongoose.Promise = global.Promise;
 mongoose.connect(
-  // "mongodb+srv://admin:admin123456@nodejs-mongoose-estudos-y8edt.mongodb.net/test?retryWrites=true",
-  'mongodb://localhost/nodejs-with-mongo-estudos',
+  DB_URI,
   { 
     useFindAndModify: false,
     useNewUrlParser: true 

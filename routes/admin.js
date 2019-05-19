@@ -66,10 +66,10 @@ router.post('/categories/new', (req, res) => {
   }
 
   if(errors.length > 0){
-    res.render('admin/category/new', {errors: errors, category: newCategory})
+    res.render('admin/category/new', {errors: errors, category: newCategoryData})
   }else{
 
-    let saveNewCategory = new Category(newCategory) 
+    let saveNewCategory = new Category(newCategoryData) 
 
     saveNewCategory
       .save()
@@ -100,9 +100,8 @@ router.get('/categories/edit/:id', (req, res) => {
 
 router.post('/categories/edit', (req, res) => {
 
-  let updateCategoryId = req.body.id
-
   let updateCategoryData = {
+    _id: req.body.id,
     name: req.body.name.toLowerCase(),
     slug: req.body.slug.toLowerCase(),
     updatedAt: Date.now()
@@ -123,10 +122,10 @@ router.post('/categories/edit', (req, res) => {
   }
 
   if(errors.length > 0){
-    res.render('admin/category/edit', {errors: errors, category: newCategory})
+    res.render('admin/category/edit', {errors: errors, category: updateCategoryData})
   }else{
 
-    Category.findByIdAndUpdate(updateCategoryId, updateCategoryData, {new: true})
+    Category.findByIdAndUpdate(updateCategoryData._id, updateCategoryData, {new: true})
       .then(category => {     
         req.flash('success_msg', "Categoria editada com sucesso!")
         res.redirect('/admin/categories')
@@ -216,7 +215,22 @@ router.post("/posts/new", (req, res) => {
   }
 
   if(errors.length > 0){
-    res.render('admin/post/new', {errors: errors, post: newPostData})
+
+    Category
+      .find()
+      .then( async categories => {
+
+        let viewCategories = await eAdmin.hCopyObject(categories);
+
+        viewCategories = await eAdmin.hCreateSelectedAttribute(viewCategories, newPostData.category, '_id')
+
+        await res.render('admin/post/new', {
+          errors: errors, 
+          post: newPostData,
+          categories: viewCategories
+        })
+    })
+
   }else{
 
     let saveNewPost = new Post(newPostData) 
@@ -293,13 +307,13 @@ router.post('/posts/edit', (req, res) => {
 
     Category
       .find()
-      .then(categories => {
+      .then( async categories => {
 
         let viewCategories = eAdmin.hCopyObject(categories);
 
-        viewCategories = eAdmin.hCreateSelectedAttribute(viewCategories, updateCategoryData.category, '_id')
+        viewCategories = await eAdmin.hCreateSelectedAttribute(viewCategories, updateCategoryData.category, '_id')
 
-        res.render('admin/post/edit', {
+        await res.render('admin/post/edit', {
           errors: errors, 
           post: updateCategoryData, 
           categories: viewCategories
