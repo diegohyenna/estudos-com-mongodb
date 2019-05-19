@@ -1,0 +1,18 @@
+<h3>Postagem</h3>
+<hr>
+<a href="/" class="btn btn-warning">Voltar</a>
+<hr>
+{{#each posts}}
+  <div class="card mt-2">
+    <div class="card-body">
+      <h4>{{title}}</h4>
+      <p>Slug: {{slug}}</p>
+      <p>Categoria: {{category.name}}</p>
+      <p>Descrição: {{description}}</p>
+      <p>Conteúdo: {{content}}</p>
+      <p>Criação: {{createdAt}}</p>
+      <p>Modificação: {{updatedAt}}</p>
+    </div>
+  </div>
+{{else}}
+{{/each}}

@@ -55,6 +55,7 @@ app.set('view engine', 'handlebars');
 //banco de dados mongodb
 mongoose.Promise = global.Promise;
 mongoose.connect(
+  // "mongodb+srv://admin:admin123456@nodejs-mongoose-estudos-y8edt.mongodb.net/test?retryWrites=true",
   'mongodb://localhost/nodejs-with-mongo-estudos',
   { 
     useFindAndModify: false,
@@ -74,13 +75,13 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 //rotas
 app.use('/', home)
-app.use('/post', post)
+app.use('/posts', post)
 app.use('/user', user)
 app.use('/login', login)
 app.use('/admin', eAdmin, admin)
 
 //outros
-const PORT = 8081
+const PORT = process.env.PORT || 8081
 app.listen( PORT, () => {
   console.log('Servidor rodando!!!');
 })

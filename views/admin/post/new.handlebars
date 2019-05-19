@@ -4,22 +4,22 @@
 {{else}}
 {{/each}}
 <hr>
-<form action="./new" method="POST">
+<form action="/admin/posts/new" method="POST">
   <div class="form-group">
     <label for="title">Título: </label>
     <input type="text" name="title" class="form-control" value="{{post.title}}" placeholder="Nome da postagem">
   </div>
   <div class="form-group">
     <label for="slug">Slug: </label>
-    <input type="text" name="slug" class="form-control" placeholder="Slug da postagem">
+    <input type="text" name="slug" class="form-control" value="{{post.slug}}" placeholder="Slug da postagem">
   </div>
   <div class="form-group">
-    <label for="slug">Descrição: </label>
-    <textarea name="description" class="form-control" placeholder="Descrição da postagem"></textarea>
+    <label for="description">Descrição: </label>
+    <textarea name="description" class="form-control" value="{{post.description}}" placeholder="Descrição da postagem"></textarea>
   </div>
   <div class="form-group">
-    <label for="slug">Conteúdo: </label>
-    <textarea name="content" class="form-control" placeholder="Descrição do conteudo"></textarea>
+    <label for="content">Conteúdo: </label>
+    <textarea name="content" class="form-control" value="{{post.content}}" placeholder="Descrição do conteudo"></textarea>
   </div>
   <div class="form-group">
     <label>Categorias</label>
@@ -32,5 +32,5 @@
     </select>
   </div>
   <button type="submit" class="btn btn-success">Criar postagem</button>
-  <a href="../posts" class="btn btn-secondary">Voltar</a>
+  <a href="/admin/posts" class="btn btn-secondary">Voltar</a>
 </form>

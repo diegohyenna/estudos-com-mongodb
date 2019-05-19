@@ -5,9 +5,10 @@ require('../models/Category')
 const Category = mongoose.model('category')
 require('../models/Post')
 const Post = mongoose.model('post')
+const eAdmin = require('../helpers/eAdmin')
 
 router.get('/', (req, res) => {
-  res.render('admin/index')
+  res.render('admin/home/index')
 })
 
 router.get('/categories', (req, res) => {
@@ -27,7 +28,7 @@ router.get('/categories', (req, res) => {
           });
         })
 
-        await res.render('admin/categories', {categories: categories, attributes: attributes})
+        await res.render('admin/category/index', {categories: categories, attributes: attributes})
       })
       .catch(error => {        
         req.flash('error_msg', "Houve um erro ao listar as categorias")
@@ -40,32 +41,32 @@ router.get('/categories', (req, res) => {
 })
 
 router.get('/categories/add', (req, res) => {
-  res.render('admin/add-categories')
+  res.render('admin/category/new')
 })
 
 router.post('/categories/new', (req, res) => {
 
-  let newCategory = {
+  let newCategoryData = {
     name: req.body.name.toLowerCase(),
     slug: req.body.slug.toLowerCase()
   }
 
   let errors = []
 
-  if(!req.body.name || !req.body.name == undefined || !req.body.name == null){
+  if(!newCategoryData.name || newCategoryData.name == undefined || newCategoryData.name == null){
     errors.push({text: "Nome inválido"})
   }
 
-  if(!req.body.slug || !req.body.slug == undefined || !req.body.slug == null){
+  if(!newCategoryData.slug || newCategoryData.slug == undefined || newCategoryData.slug == null){
     errors.push({text: "Slug inválido"})
   }
 
-  if(req, req.body.name.length < 2){
-    errors.push({text: 'Nome da categoria é menor que 2 caracteres!'})
+  if(newCategoryData.name.length < 2){
+    errors.push({text: 'Nome da categoria deve ser maior que 1(uma) letra!'})
   }
 
   if(errors.length > 0){
-    res.render('admin/add-categories', {errors: errors, category: newCategory})
+    res.render('admin/category/new', {errors: errors, category: newCategory})
   }else{
 
     let saveNewCategory = new Category(newCategory) 
@@ -88,7 +89,7 @@ router.get('/categories/edit/:id', (req, res) => {
   Category
     .findOne({_id: req.params.id})
     .then(category => {
-      res.render('admin/edit-categories', {category: category})
+      res.render('admin/category/edit', {category: category})
     })
     .catch( error => {
       req.flash('error_msg', "Essa categoria não existe!")
@@ -99,21 +100,43 @@ router.get('/categories/edit/:id', (req, res) => {
 
 router.post('/categories/edit', (req, res) => {
 
-  let updateCategory = {
+  let updateCategoryId = req.body.id
+
+  let updateCategoryData = {
     name: req.body.name.toLowerCase(),
     slug: req.body.slug.toLowerCase(),
     updatedAt: Date.now()
   }
 
-  Category.findByIdAndUpdate(req.body.id, updateCategory, {new: true})
-    .then(category => {     
-      req.flash('success_msg', "Categoria editada com sucesso!")
-      res.redirect('/admin/categories')
-    })
-    .catch( error => {
-      req.flash('error_msg', "Houve um erro ao editar a categoria")
-      res.redirect("/admin/categories")
-    })
+  let errors = []
+
+  if(!updateCategoryData.name || updateCategoryData.name == undefined || updateCategoryData.name == null){
+    errors.push({text: "Nome inválido"})
+  }
+
+  if(!updateCategoryData.slug || updateCategoryData.slug == undefined || updateCategoryData.slug == null){
+    errors.push({text: "Slug inválido"})
+  }
+
+  if(updateCategoryData.name.length < 2){
+    errors.push({text: 'Nome da categoria deve ser maior que 1(uma) letra!'})
+  }
+
+  if(errors.length > 0){
+    res.render('admin/category/edit', {errors: errors, category: newCategory})
+  }else{
+
+    Category.findByIdAndUpdate(updateCategoryId, updateCategoryData, {new: true})
+      .then(category => {     
+        req.flash('success_msg', "Categoria editada com sucesso!")
+        res.redirect('/admin/categories')
+      })
+      .catch( error => {
+        req.flash('error_msg', "Houve um erro ao editar a categoria")
+        res.redirect("/admin/categories")
+      })
+  
+  }
   
 })
 
@@ -143,7 +166,7 @@ router.get('/posts', (req, res) => {
     .populate('category')
     .sort({name: 'asc'})
     .then( posts => {
-      res.render('admin/posts', {posts: posts})
+      res.render('admin/post/index', {posts: posts})
     })
     .catch(error => {
       req.flash('error_msg', "Houve um erro ao listar as postagens")
@@ -158,7 +181,7 @@ router.get('/posts/add', (req, res) => {
     .find()
     .sort({name: 'asc'})
     .then( categories => {
-      res.render('admin/add-posts', {categories: categories})
+      res.render('admin/post/new', {categories: categories})
     })
     .catch( error => {
       res.flash("Houve algum erro ao tentar carregar as categorias das postagens!")
@@ -170,22 +193,33 @@ router.get('/posts/add', (req, res) => {
 router.post("/posts/new", (req, res) => {
   let errors = []
 
-  if(req.body.category == 0){
+  let newPostData = {
+    title: req.body.title,
+    slug: req.body.slug.toString(),
+    description: req.body.description,
+    content: req.body.content,
+    category: req.body.category
+  }
+
+  if(!newPostData.title || newPostData.title == undefined || newPostData.title == null){
+    errors.push({text: "O Título é obrigatório"})
+  }
+  if(!newPostData.slug || newPostData.slug == undefined || newPostData.slug == null){
+    errors.push({text: "O Slug é obrigatório"})
+  }
+  if(!newPostData.content || newPostData.content == undefined || newPostData.content == null){
+    errors.push({text: "O Conteúdo é obrigatório"})
+  }
+
+  if(newPostData.category == 0){
     errors.push({text: "Categoria inválida, selecione uma categoria!"})
   }
 
   if(errors.length > 0){
-    res.render('admin/add-posts', {errors: errors})
+    res.render('admin/post/new', {errors: errors, post: newPostData})
   }else{
-    let newPost = {
-      title: req.body.title,
-      slug: req.body.slug,
-      description: req.body.description,
-      content: req.body.content,
-      category: req.body.category
-    }
 
-    let saveNewPost = new Post(newPost) 
+    let saveNewPost = new Post(newPostData) 
 
     saveNewPost
       .save()
@@ -208,40 +242,88 @@ router.get('/posts/edit/:id', (req, res) => {
     .then(post => {
       Category
         .find()
-        .then(categories => {
-          res.render('admin/edit-posts', {post: post, categories: categories})
+        .then( categories => {
+
+          let viewCategories = eAdmin.hCopyObject(categories);
+
+          viewCategories = eAdmin.hCreateSelectedAttribute(viewCategories, post.category, '_id')
+
+          res.render('admin/post/edit', {post: post, categories: viewCategories})
         })
         .catch( error => {
-          req.flash('error_msg', "Essa postagem não existe!")
+          req.flash('error_msg', "Deu erro ao tentar carregar as categorias!")
           res.redirect('/admin/posts')
         })
     })
     .catch( error => {
-      req.flash('error_msg', "Essa categoria não existe!")
-      res.redirect('/admin/categories')
+      req.flash('error_msg', "Essa postagem não existe!")
+      res.redirect('/admin/posts')
     })
 })
 
 router.post('/posts/edit', (req, res) => {
 
-  let updateCategory = {
-    title: req.body.title.toLowerCase(),
+  let errors = []
+
+  let updateCategoryData = {
+    id: req.body.id,
+    title: req.body.title,
     slug: req.body.slug.toLowerCase(),
-    description: req.body.description.toLowerCase(),
-    content: req.body.content.toLowerCase(),
+    description: req.body.description,
+    content: req.body.content,
     category: req.body.category,
     updatedAt: Date.now()
   }
+  
+  if(!updateCategoryData.title || updateCategoryData.title == undefined || updateCategoryData.title == null){
+    errors.push({text: "O Título é obrigatório"})
+  }
+  if(!updateCategoryData.slug || updateCategoryData.slug == undefined || updateCategoryData.slug == null){
+    errors.push({text: "O Slug é obrigatório"})
+  }
+  if(!updateCategoryData.content || updateCategoryData.content == undefined || updateCategoryData.content == null){
+    errors.push({text: "O Conteúdo é obrigatório"})
+  }
 
-  Post.findByIdAndUpdate(req.body.id, updateCategory, {new: true})
-    .then(post => {
-      req.flash('success_msg', "Postagem editada com sucesso!")
-      res.redirect('/admin/posts')
-    })
-    .catch( error => {
-      req.flash('error_msg', "Houve um erro ao editar a postagem")
-      res.redirect("/admin/posts")
-    })
+  if(updateCategoryData.category == 0){
+    errors.push({text: "Categoria inválida, selecione uma categoria!"})
+  }
+
+  if(errors.length > 0){
+
+    Category
+      .find()
+      .then(categories => {
+
+        let viewCategories = eAdmin.hCopyObject(categories);
+
+        viewCategories = eAdmin.hCreateSelectedAttribute(viewCategories, updateCategoryData.category, '_id')
+
+        res.render('admin/post/edit', {
+          errors: errors, 
+          post: updateCategoryData, 
+          categories: viewCategories
+        })
+      })
+      .catch( error => {
+        req.flash('error_msg', "Deu erro ao tentar carregar as categorias!")
+        res.redirect('/admin/posts')
+      })
+
+  }else{
+
+    Post.findByIdAndUpdate(updateCategoryData.id, updateCategoryData, {new: true})
+      .then(post => {
+        req.flash('success_msg', "Postagem editada com sucesso!")
+        res.redirect('/admin/posts')
+      })
+      .catch( error => {
+        req.flash('error_msg', "Houve um erro ao editar a postagem")
+        res.redirect("/admin/posts")
+      })
+  
+  }
+
 })
 
 router.post('/posts/delete', (req, res) => {

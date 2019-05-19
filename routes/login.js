@@ -8,7 +8,7 @@ require('../models/User')
 const User = mongoose.model('user')
 
 router.get('/', (req, res) => {
-  res.render("login/index")
+  res.render("site/login/index")
 })
 
 router.post('/', (req, res, next) => {

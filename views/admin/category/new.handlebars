@@ -1,11 +1,10 @@
-<h3>Editar Categoria</h3>
+<h3>Nova Categoria</h3>
 {{#each errors}}
   <div class="alert alert-danger">{{text}}</div>
 {{else}}
 {{/each}}
 <hr>
-<form action="/admin/categories/edit" method="post">  
-  <input type="hidden" name="id" value="{{category._id}}">
+<form action="/admin/categories/new" method="POST">
   <div class="form-group">
     <label for="nome">Nome: </label>
     <input type="text" class="form-control" name="name" value="{{category.name}}" placeholder="Nome da categoria">
@@ -15,5 +14,5 @@
     <input type="text" class="form-control" name="slug" value="{{category.slug}}" placeholder="Slug da categoria">
   </div>
   <button type="submit" class="btn btn-success">Salvar</button>
-  <a href="../" class="btn btn-secondary">Voltar</a>
+  <a href="/admin/categories" class="btn btn-secondary">Voltar</a>
 </form>

@@ -6,8 +6,18 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/">Home</a>
+      {{#if userLogged}} 
+        <li class="nav-item">     
+          <a class="nav-link" href="/admin">Home</a>          
+        </li>
+      {{else}}
+        <li class="nav-item"> 
+          <a class="nav-link" href="/">Home</a> 
+        </li>
+        <li class="nav-item">     
+          <a class="nav-link" href="/posts">Postagens</a>          
+        </li>
+      {{/if}}
       </li>
       {{#if userLogged.type}}
       <li class="nav-item">

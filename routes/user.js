@@ -14,7 +14,7 @@ router.get('/', eAdmin, (req, res) => {
     .find()
     .sort({name: 'asc'})
     .then( users => {
-      res.render('user/index', {users: users})
+      res.render('admin/user/index', {users: users})
     })
     .catch( error => {
       req.flash('error_msg', "Não foi possível carregar a lista de usuários")
@@ -26,7 +26,7 @@ router.post('/my-account', eLogged, (req, res) => {
   User
     .findById(req.body.id)
     .then( user => {
-      res.render('user/my-account', {user: user})
+      res.render('admin/user/my-account', {user: user})
     })
     .catch( error => {
       req.flash('error_msg', "Não foi possível carregar os seus dados de usuário")
@@ -35,7 +35,7 @@ router.post('/my-account', eLogged, (req, res) => {
 })
 
 router.get('/new', eAdmin, (req, res) => {
-  res.render('user/new')
+  res.render('admin/user/new')
 })
 
 router.post('/new', eAdmin, (req, res) => {
@@ -79,7 +79,7 @@ router.post('/edit', eLogged, (req, res) => {
   User
     .findById(req.body.id)
     .then( user => {
-      res.render('user/edit', {user: user})
+      res.render('admin/user/edit', {user: user})
     })
     .catch( error => {
       req.flash('error_msg', "Não foi possível carregar os seus dados de usuário")
@@ -108,12 +108,13 @@ router.post('/save', eLogged, (req, res) => {
 })
 
 router.get('/register', (req, res) => {
-  res.render('user/register')
+  res.render('site/user/register')
 })
 
 router.post('/register', (req, res) => {
 
   let errors = []
+
   let newUser = {
     name: req.body.name,
     email: req.body.email,
@@ -151,7 +152,7 @@ router.post('/register', (req, res) => {
 
         if(user){
           req.flash('error_msg', 'Já existe um usuário cadastrado com esse email!')
-          res.render('user/register', {errors: errors, newUser: newUser})
+          res.render('site/user/register', {errors: errors, newUser: newUser})
         }else{
 
           let saveNewUser = new User(newUser)
