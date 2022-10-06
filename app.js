@@ -20,7 +20,7 @@ const login = require('./routes/login')
 const { eAdmin } = require('./helpers/eAdmin')
 
 //configurações
-const DB_URI = "mongodb+srv://admin:admin123456@nodejs-mongoose-estudos-y8edt.mongodb.net/test?retryWrites=true";
+const DB_URI = "mongodb+srv://admin:admin12345@cluster0.ew9ty.mongodb.net/?retryWrites=true&w=majority";
 //"mongodb://localhost/nodejs-with-mongo-estudos"
 
 //session + middleware
